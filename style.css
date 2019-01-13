@@ -1,0 +1,47 @@
+th {
+    width: 200px;
+    height: 200px;
+    position: relative;
+}
+
+
+img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    
+}
+
+.imgs {
+   /* backface-visibility: hidden;*/
+    transform: rotateY(180deg);
+}
+
+.im {
+    backface-visibility: hidden;
+    transform: rotateY(0deg);
+}
+
+/*img:hover {
+    transform: scale(0.9) rotateY(180deg);
+    
+}
+.imgs:hover {
+    transform: scale(0.9) rotateY(0deg);
+}
+*/
+
+th {
+    transition-duration: 1s;
+    perspective: 800px;
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
+}
+
+th.rotate {
+    transform: scale(0.9) rotateY(180deg);
+    
+}

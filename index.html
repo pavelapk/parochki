@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <table>
+        <caption align="center">Парочки</caption>
+        <tr>
+            <th><img class="im" width="250px" height="250px" src="img/rub.png" alt="">
+                <img class="imgs" width="250px" height="250px" src="img/01.png" alt=""></th>
+            <th><img class="im" width="250px" height="250px" src="img/rub.png" alt="">
+                <img class="imgs" width="250px" height="250px" src="img/01.png" alt=""></th>
+            <th><img class="im" width="250px" height="250px" src="img/rub.png" alt="">
+                <img class="imgs" width="250px" height="250px" src="img/01.png" alt=""></th>
+        </tr>
+        <tr>
+            <th><img class="im" width="250px" height="250px" src="img/rub.png" alt="">
+                <img class="imgs" width="250px" height="250px" src="img/01.png" alt=""></th>
+            <th><img class="im" width="250px" height="250px" src="img/rub.png" alt="">
+                <img class="imgs" width="250px" height="250px" src="img/01.png" alt=""></th>
+            <th><img class="im" width="250px" height="250px" src="img/rub.png" alt="">
+                <img class="imgs" width="250px" height="250px" src="img/01.png" alt=""></th>
+        </tr>
+        <tr>
+            <th><img class="im" width="250px" height="250px" src="img/rub.png" alt="">
+                <img class="imgs" width="250px" height="250px" src="img/01.png" alt=""></th>
+            <th><img class="im" width="250px" height="250px" src="img/rub.png" alt="">
+                <img class="imgs" width="250px" height="250px" src="img/01.png" alt=""></th>
+            <th><img class="im" width="250px" height="250px" src="img/rub.png" alt="">
+                <img class="imgs" width="250px" height="250px" src="img/01.png" alt=""></th>
+        </tr>
+        <tr id="r4">
+            <th></th>
+            <th><img class="im" width="250px" height="250px" src="img/rub.png" alt="">
+                <img class="imgs" width="250px" height="250px" src="img/01.png" alt=""></th>
+
+        </tr>
+    </table>
+    <script>
+        $('*').on('dragstart', function(event) { event.preventDefault(); });
+        var imgs = $('.imgs');
+        var ths = $('th');
+
+        var arr = [1, 2, 3, 4, 5];
+
+        function compareRandom(a, b) {
+            return (Math.random() - 0.5) * 2;
+        }
+
+        arr.sort(compareRandom);
+
+        for (var i = 0; i < 5; i++) {
+            imgs.eq(i).attr('src', 'img/0' + arr[i] + '.png');
+        }
+        arr.sort(compareRandom);
+        for (var i = 5; i < 10; i++) {
+            imgs.eq(i).attr('src', 'img/0' + arr[i - 5] + '.png');
+        }
+
+
+        var firstPick = -1;
+        var secondPick = -1;
+        ths.click(function() {
+            if (secondPick < 0) {
+                if (firstPick < 0) {
+                    $(this).addClass('rotate');
+                    firstPick = ths.index($(this));
+                } else {
+                    if (ths.index($(this)) == firstPick) {
+                        $(this).removeClass('rotate');
+                        firstPick = -1;
+                    } else {
+                        $(this).addClass('rotate');
+                        secondPick = ths.index($(this));
+
+                        setTimeout(function() {
+                            if (ths.eq(firstPick).find('.imgs').attr('src') == ths.eq(secondPick).find('.imgs').attr('src')) {
+                                ths.eq(firstPick).fadeTo(100, 0);
+                                ths.eq(secondPick).fadeTo(100, 0);
+                            } else {
+                                ths.eq(firstPick).removeClass('rotate');
+                                ths.eq(secondPick).removeClass('rotate');
+                            }
+                            secondPick = -1;
+                            firstPick = -1;
+                        }, 800);
+                    }
+                }
+            }
+        });
+
+
+
+        /*for (var i = 0; i < 5; i++) {
+            imgs.eq(i).attr('src', 'img/0' + arr[i] + '.png');
+            imgs.eq(i + 5).attr('src', 'img/0' + arr[i] + '.png');
+        }*/
+
+        /*var img = [];
+        for(var i = 1; i<=5;i++) {
+            img[i] = $('<img>').attr('src','img/0'+i+'.png');
+            
+        }
+        $('body').append(img[1]);
+        var img_elem = $('img');
+        var a = 1;
+        setInterval(function(){
+            a++;
+            if (a>5) {
+                a=1;
+            }
+            img_elem.attr('src','img/0'+a+'.png');
+        },100);*/
+    </script>
+</body>
+
+</html>
