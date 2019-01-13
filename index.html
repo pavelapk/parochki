@@ -10,8 +10,12 @@
 
 <body>
 
+    <span>YOU WIN!</span>
+    <h1>Ходов: <div id="move">50</div>
+    </h1>
     <table>
         <caption align="center">Парочки</caption>
+        <!--
         <tr>
             <th><img class="im" width="250px" height="250px" src="img/rub.png" alt="">
                 <img class="imgs" width="250px" height="250px" src="img/01.png" alt=""></th>
@@ -42,13 +46,47 @@
                 <img class="imgs" width="250px" height="250px" src="img/01.png" alt=""></th>
 
         </tr>
+-->
     </table>
     <script>
-        $('*').on('dragstart', function(event) { event.preventDefault(); });
+        //generate
+
+        const ROWS = 1;
+        const COLS = 4;
+
+
+        var img_back = $('<img>').addClass('im').attr('src', "img/rub.png");
+        var img_face = $('<img>').addClass('imgs').attr('src', "img/01.png");
+        var th = $('<th>').append(img_back).append(img_face);
+        var tr = $('<tr>');
+        for (var i = 0; i < COLS; i++) {
+            tr.append(th.clone());
+        }
+
+        var table = $('table');
+
+        for (var i = 0; i < ROWS; i++) {
+            table.append(tr.clone());
+        }
+
+
+
+        ////////////////
+
+
+
+
+        $('*').on('dragstart', function(event) {
+            event.preventDefault();
+        });
         var imgs = $('.imgs');
         var ths = $('th');
 
-        var arr = [1, 2, 3, 4, 5];
+        var arr = [];
+
+        for (var i = 0; i < ROWS * COLS / 2; i++) {
+            arr.push(i % 5 + 1);
+        }
 
         function compareRandom(a, b) {
             return (Math.random() - 0.5) * 2;
@@ -56,17 +94,21 @@
 
         arr.sort(compareRandom);
 
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < ROWS * COLS / 2; i++) {
             imgs.eq(i).attr('src', 'img/0' + arr[i] + '.png');
         }
         arr.sort(compareRandom);
-        for (var i = 5; i < 10; i++) {
-            imgs.eq(i).attr('src', 'img/0' + arr[i - 5] + '.png');
+        for (var i = 0; i < ROWS * COLS / 2; i++) {
+            imgs.eq(i + ROWS * COLS / 2).attr('src', 'img/0' + arr[i] + '.png');
         }
 
 
         var firstPick = -1;
         var secondPick = -1;
+
+        var move = 50;
+
+
         ths.click(function() {
             if (secondPick < 0) {
                 if (firstPick < 0) {
@@ -76,15 +118,22 @@
                     if (ths.index($(this)) == firstPick) {
                         $(this).removeClass('rotate');
                         firstPick = -1;
+
                     } else {
                         $(this).addClass('rotate');
                         secondPick = ths.index($(this));
 
                         setTimeout(function() {
                             if (ths.eq(firstPick).find('.imgs').attr('src') == ths.eq(secondPick).find('.imgs').attr('src')) {
-                                ths.eq(firstPick).fadeTo(100, 0);
-                                ths.eq(secondPick).fadeTo(100, 0);
+                                ths.eq(firstPick).addClass('hide');
+                                ths.eq(secondPick).addClass('hide');
+
+                                if (ths.filter('.hide').length == ROWS * COLS) {
+                                    $('span').addClass('show');
+                                }
                             } else {
+                                move--;
+                                $('#move').html(move);
                                 ths.eq(firstPick).removeClass('rotate');
                                 ths.eq(secondPick).removeClass('rotate');
                             }
@@ -118,6 +167,7 @@
             }
             img_elem.attr('src','img/0'+a+'.png');
         },100);*/
+
     </script>
 </body>
 
